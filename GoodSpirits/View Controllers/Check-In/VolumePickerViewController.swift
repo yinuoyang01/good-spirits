@@ -255,6 +255,10 @@ extension VolumePickerViewController: UICollectionViewDelegate, UICollectionView
         
         cell.image = UIImage.init(named: tuple.1)
         cell.text = Format.format(volume: tuple.0)
+
+        // Adding accessibility attributes
+        cell.isAccessibilityElement = true
+        cell.accessibilityLabel = "Select \(cell.text!) volume"
         
         return cell
     }
@@ -389,6 +393,18 @@ extension VolumePickerViewController
         required init?(coder aDecoder: NSCoder)
         {
             fatalError("init(coder:) has not been implemented")
+        }
+
+        private func configureAccessibility() {
+            isAccessibilityElement = true
+            accessibilityTraits = .button
+        }
+
+        var text: String? {
+            didSet {
+                label.text = text
+                accessibilityLabel = "Select \(text ?? "drink") volume"
+            }
         }
     }
 }
